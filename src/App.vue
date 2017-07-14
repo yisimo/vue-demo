@@ -9,23 +9,23 @@
 </template>
 
 <script>
+import Store from "./store"
 export default {
-    data:function () {
+    data :function () {
       return{
         title:'This is a todo list!',
-        items:[
-           {
-             label:'cording',
-             isFinished:false,
-           },
-           {
-             label:'cooking',
-             isFinished:true,
-           }
-        ],
+        items:Store.fetch(),
         newItem :''
       }
     },
+  watch:{
+    items:{
+        handler:function (items) {
+          Store.save(items)
+        },
+      deep:true
+    }
+  },
   methods:{
         toggleFinished:function (item) {
           item.isFinished = !item.isFinished
