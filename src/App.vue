@@ -5,19 +5,24 @@
     <ul>
       <li v-for="item in items" v-bind:class="{ finished:item.isFinished }" v-on:click="toggleFinished(item)">{{ item.label }}</li>
     </ul>
+    <p>Chileren speak : {{ childWords }}</p>
+    <component-a msgfromfather="You are handsome!" v-on:child-tell="listenToMe"></component-a>
   </div>
 </template>
 
 <script>
 import Store from "./store"
+import ComponentA from "./components/componentA.vue"
 export default {
     data :function () {
       return{
         title:'This is a todo list!',
         items:Store.fetch(),
-        newItem :''
+        newItem :'',
+        childWords:''
       }
     },
+  components:{ ComponentA },
   watch:{
     items:{
         handler:function (items) {
@@ -36,6 +41,9 @@ export default {
             isFinished:false,
           }),
           this.newItem = ''
+        },
+        listenToMe:function (msg) {
+          this.childWords = msg
         }
   }
 }
